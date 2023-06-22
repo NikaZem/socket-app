@@ -24,7 +24,18 @@ app.listen(port, async () => {
 
 // запуск сокет сервера
 io.on('connection', (socket) => {
-    console.log(`Подключен клиент`, socket);
+    socket.emit('connected', {
+        message: 'You`re connected succesfully'
+    })
+
+    socket.on('message', (arg) => {
+        console.log(arg);
+    })
+
+    socket.on('disconnect', (reason) => {
+        console.log('Client has been disabled');
+        console.log(reason);
+    })
 });
 
 httpServer.listen(3001);

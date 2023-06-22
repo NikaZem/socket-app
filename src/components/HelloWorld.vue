@@ -6,6 +6,8 @@
       check out the
       <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
     </p>
+    <input type="text" v-model="message">
+    <button @click="send" class="btn">Send</button>
     <h3>Installed CLI Plugins</h3>
     <ul>
       <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
@@ -30,10 +32,23 @@
 </template>
 
 <script>
+const { io } = require("socket.io-client");
+const socket = io("http://localhost:3001");
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  }, 
+  data() {
+    return {
+      message: null
+    }
+  }, 
+  methods: {
+    send() {
+      socket.emit('message', this.message)
+    }
   }
 }
 </script>
